@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @property-read int $current_points
+ * @property-read ?TaskPoint $current_points
  */
 final class Task extends Model
 {
@@ -26,12 +26,12 @@ final class Task extends Model
     protected $guarded = [];
 
     /**
-     * @return Attribute<int, never>
+     * @return Attribute<TaskPoint|null, never>
      */
     public function currentPoints(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->points()->where('is_current', true)->latest()->first()->points ?? 0
+            get: fn () => $this->points()->where('is_current', true)->latest()->first(),
         );
     }
 

@@ -9,10 +9,16 @@ use App\Models\Task;
 
 final readonly class DeleteTask
 {
-    public function handle(int $id): void
+    public function handle(int $id): bool
     {
-        Task::destroy($id);
+        $deleted = Task::destroy($id) === 1;
+
+        if (! $deleted) {
+            return false;
+        }
 
         TaskDeletedEvent::dispatch($id);
+
+        return true;
     }
 }

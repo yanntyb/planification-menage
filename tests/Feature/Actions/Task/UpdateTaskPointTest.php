@@ -14,7 +14,7 @@ describe(UpdateTaskPoint::class, function () {
 
         $action->handle($task->id, 10);
 
-        expect($task->fresh()->currentPoints)->toBe(10);
+        expect($task->fresh()->current_points->points)->toBe(10);
     });
 
     it('fire event', function () {

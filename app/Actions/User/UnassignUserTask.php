@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Task;
+namespace App\Actions\User;
 
 use App\Events\Task\TaskUnassignedEvent;
 use App\Exceptions\Task\CannotUnAssignCompletedTaskException;
@@ -11,7 +11,7 @@ use App\Models\Pivot\TaskUser;
 use App\Models\Task;
 use App\Models\User;
 
-final readonly class UnassignTaskUser
+final readonly class UnassignUserTask
 {
     public function handle(int $taskId, int $userId): bool
     {

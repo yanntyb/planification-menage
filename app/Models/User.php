@@ -41,8 +41,9 @@ final class User extends Authenticatable
      */
     public function tasks(): BelongsToMany
     {
-        return $this->belongsToMany(Task::class)->using(TaskUser::class)
-            ->withPivot('completed_at');
+        return $this->belongsToMany(Task::class)
+            ->using(TaskUser::class)
+            ->withPivot('completed_at', 'task_point_id');
     }
 
     /**

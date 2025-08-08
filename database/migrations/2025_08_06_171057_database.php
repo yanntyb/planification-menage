@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Models\Task;
+use App\Models\TaskPoint;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -33,6 +34,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Task::class);
+            $table->foreignIdFor(TaskPoint::class);
 
             $table->dateTime('completed_at')->nullable();
 

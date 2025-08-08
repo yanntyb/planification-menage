@@ -7,7 +7,7 @@ namespace App\Actions\User;
 use App\Exceptions\Task\CannotValideAlreadyCompletedTaskException;
 use App\Models\Pivot\TaskUser;
 
-final readonly class ValidateUserTask
+final readonly class CompleteUserTask
 {
     public function handle(int $taskId, int $userId): bool
     {
