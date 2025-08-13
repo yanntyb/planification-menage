@@ -24,7 +24,7 @@ final class UserController extends Controller
 
     public function store(StoreUserRequest $request): UserResource
     {
-        $user = app(CreateUser::class)->handle($request->name, $request->email, $request->password);
+        $user = app(CreateUser::class)->handle($request->all());
 
         return new UserResource($user);
     }
@@ -36,7 +36,7 @@ final class UserController extends Controller
 
     public function destroy(User $user): Response
     {
-        $deleted = app(DeleteUser::class)->handle($user->id);
+        $deleted = app(DeleteUser::class)->handle($user);
 
         if (! $deleted) {
             return response(null, 500);

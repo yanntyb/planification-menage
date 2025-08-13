@@ -16,7 +16,7 @@ final class UnassignUserTaskController extends Controller
 
     public function __invoke(User $user, Task $task): JsonResponse
     {
-        $unassigned = $this->unassign->handle($task->id, $user->id);
+        $unassigned = $this->unassign->handle($task, $user);
 
         if ($unassigned) {
             return response()->json(['message' => 'Task unassigned successfully.']);

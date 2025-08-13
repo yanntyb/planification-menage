@@ -10,7 +10,7 @@ describe(DeleteUser::class, function () {
     it('can delete user', function () {
         $user = User::factory()->create();
 
-        app(DeleteUser::class)->handle($user->id);
+        app(DeleteUser::class)->handle($user);
 
         expect($user->fresh())->toBeNull();
     });
@@ -20,7 +20,7 @@ describe(DeleteUser::class, function () {
 
         $user = User::factory()->create();
 
-        app(DeleteUser::class)->handle($user->id);
+        app(DeleteUser::class)->handle($user);
 
         Event::assertDispatched(fn (UserDeletedEvent $event) => $event->id === $user->id);
     });

@@ -9,15 +9,15 @@ use App\Models\User;
 
 final readonly class DeleteUser
 {
-    public function handle(int $id): bool
+    public function handle(User $user): bool
     {
-        $deleted = User::destroy($id) === 1;
+        $deleted = $user->delete();
 
         if (! $deleted) {
             return false;
         }
 
-        UserDeletedEvent::dispatch($id);
+        UserDeletedEvent::dispatch($user->id);
 
         return true;
     }

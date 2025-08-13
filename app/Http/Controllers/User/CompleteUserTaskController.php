@@ -16,7 +16,7 @@ final class CompleteUserTaskController extends Controller
 
     public function __invoke(User $user, Task $task): JsonResponse
     {
-        $completed = $this->complete->handle($task->id, $user->id);
+        $completed = $this->complete->handle($task, $user);
 
         if ($completed) {
             return response()->json(['message' => 'Task completed successfully.']);

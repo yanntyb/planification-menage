@@ -10,6 +10,8 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property-read string $name
  * @property-read string $email
  * @property-read string $password
+ *
+ * @method array{'name': string, 'email': string, 'password': string} all()
  */
 final class StoreUserRequest extends FormRequest
 {

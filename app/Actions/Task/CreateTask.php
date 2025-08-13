@@ -9,11 +9,15 @@ use App\Models\Task;
 
 final readonly class CreateTask
 {
-    public function handle(string $title): Task
+    /**
+     * @param array{
+     *     'title': string,
+     *     'available_after': string|null
+     * } $attributes
+     */
+    public function handle(array $attributes): Task
     {
-        $task = Task::create([
-            'title' => $title,
-        ]);
+        $task = Task::create($attributes);
 
         TaskCreatedEvent::dispatch($task);
 

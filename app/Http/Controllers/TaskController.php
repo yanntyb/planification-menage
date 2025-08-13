@@ -26,7 +26,7 @@ final class TaskController extends Controller
 
     public function store(StoreTaskRequest $request): TaskResource
     {
-        $task = app(CreateTask::class)->handle($request->title);
+        $task = app(CreateTask::class)->handle($request->all());
 
         return new TaskResource($task);
     }
@@ -38,12 +38,12 @@ final class TaskController extends Controller
 
     public function update(UpdateTaskRequest $request, Task $task): void
     {
-        app(UpdateTaskPoint::class)->handle($task->id, $request->points);
+        app(UpdateTaskPoint::class)->handle($task, $request->points);
     }
 
     public function destroy(Task $task): Response
     {
-        $deleted = app(DeleteTask::class)->handle($task->id);
+        $deleted = app(DeleteTask::class)->handle($task);
 
         if ($deleted) {
             return response()->noContent();

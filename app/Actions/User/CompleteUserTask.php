@@ -4,16 +4,25 @@ declare(strict_types=1);
 
 namespace App\Actions\User;
 
-use App\Exceptions\Task\CannotValideAlreadyCompletedTaskException;
+use App\Exceptions\Task\TaskCannotBeCompletedException;
 use App\Models\Pivot\TaskUser;
+use App\Models\Task;
+use App\Models\User;
+use App\Services\Task\IsTaskAvailable;
 
 final readonly class CompleteUserTask
 {
-    public function handle(int $taskId, int $userId): bool
+    public function __construct(public IsTaskAvailable $isTaskAvailable) {}
+
+    public function handle(Task $task, User $user): bool
     {
+        if (! $this->isTaskAvailable->check($task)) {
+            throw TaskCannotBeCompletedException::taskNotAvailableYet($task);
+        }
+
         $pivot = TaskUser::query()
-            ->where('task_id', $taskId)
-            ->where('user_id', $userId)
+            ->where('task_id', $task->id)
+            ->where('user_id', $user->id)
             ->latest('id')
             ->first();
 
@@ -22,10 +31,10 @@ final readonly class CompleteUserTask
         }
 
         if ($pivot->completed_at) {
-            throw new CannotValideAlreadyCompletedTaskException($taskId, $userId);
+            throw TaskCannotBeCompletedException::alreadyCompleted($task, $user);
         }
 
-        $pivot->update([
+        $task->users()->updateExistingPivot($user->id, [
             'completed_at' => now(),
         ]);
 

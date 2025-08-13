@@ -14,7 +14,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @property-read ?TaskPoint $current_points
+ * @property-read int $id
+ * @property-read string $title
+ * @property-read string|null $available_after
+ * @property-read TaskPoint|null $current_points
  */
 final class Task extends Model
 {

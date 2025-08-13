@@ -5,36 +5,29 @@ declare(strict_types=1);
 namespace App\Actions\User;
 
 use App\Events\Task\TaskUnassignedEvent;
-use App\Exceptions\Task\CannotUnAssignCompletedTaskException;
-use App\Exceptions\Task\CannotUnassignTaskNotPreviouslyAssignedToUserException;
+use App\Exceptions\Task\TaskCannotBeUnassignException;
 use App\Models\Pivot\TaskUser;
 use App\Models\Task;
 use App\Models\User;
 
 final readonly class UnassignUserTask
 {
-    public function handle(int $taskId, int $userId): bool
+    public function handle(Task $task, User $user): bool
     {
         $pivot = TaskUser::query()
-            ->where('task_id', $taskId)
-            ->where('user_id', $userId)
+            ->where('task_id', $task->id)
+            ->where('user_id', $user->id)
+            ->whereNull('completed_at')
             ->latest('id')
             ->first();
 
         if (! $pivot) {
-            throw new CannotUnassignTaskNotPreviouslyAssignedToUserException($taskId, $userId);
-        }
-
-        if ($pivot->completed_at) {
-            throw new CannotUnAssignCompletedTaskException($taskId, $userId);
+            throw TaskCannotBeUnassignException::assignationNotFound($task, $user);
         }
 
         if (! $pivot->delete()) {
             return false;
         }
-
-        $task = Task::findOrFail($taskId);
-        $user = User::findOrFail($userId);
 
         TaskUnassignedEvent::dispatch($task, $user);
 

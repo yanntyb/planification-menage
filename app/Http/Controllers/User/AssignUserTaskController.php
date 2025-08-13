@@ -15,7 +15,7 @@ final class AssignUserTaskController
 
     public function __invoke(User $user, Task $task): JsonResponse
     {
-        $assigned = $this->assign->handle($task->id, $user->id);
+        $assigned = $this->assign->handle($task, $user);
 
         if ($assigned) {
             return response()->json(['message' => 'Task assigned successfully.']);

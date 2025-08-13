@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
 
+            // Task can be done only after a certain period
+            $table->string('available_after')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

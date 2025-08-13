@@ -10,13 +10,16 @@ use Hash;
 
 final readonly class CreateUser
 {
-    public function handle(string $name, string $email, string $password): User
+    /**
+     * @param array{
+     *     'name': string, 'email': string, 'password': string
+     * } $attributes
+     */
+    public function handle(array $attributes): User
     {
-        $user = User::create([
-            'name' => $name,
-            'email' => $email,
-            'password' => Hash::make($password),
-        ]);
+        $attributes['password'] = Hash::make($attributes['password']);
+
+        $user = User::create($attributes);
 
         UserCreatedEvent::dispatch($user);
 

@@ -10,7 +10,7 @@ describe(DeleteTask::class, function () {
     it('can delete task', function () {
         $task = Task::factory()->create();
 
-        app(DeleteTask::class)->handle($task->id);
+        app(DeleteTask::class)->handle($task);
 
         expect($task->fresh())->exists()->toBeFalse();
     });
@@ -20,7 +20,7 @@ describe(DeleteTask::class, function () {
 
         $task = Task::factory()->create();
 
-        app(DeleteTask::class)->handle($task->id);
+        app(DeleteTask::class)->handle($task);
 
         Event::assertDispatched(fn (TaskDeletedEvent $event) => $event->id === $task->id);
     });
