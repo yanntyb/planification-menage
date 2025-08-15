@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
 
             // Task can be done only after a certain period
-            $table->string('available_after')->nullable();
+            $table->string('frequency')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -26,7 +26,7 @@ return new class extends Migration
         Schema::create('task_points', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Task::class);
-            $table->integer('points');
+            $table->integer('value');
             $table->boolean('is_current')->default(false);
 
             $table->timestamps();

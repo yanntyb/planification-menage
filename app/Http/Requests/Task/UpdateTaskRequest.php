@@ -8,6 +8,9 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * @property-read int $points
+ *
+ * @method array{'title': string|null, 'frequency': string|null, 'points': int|null} validated()
+ * @method array{'title': string|null, 'frequency': string|null, 'points': int|null} all()
  */
 final class UpdateTaskRequest extends FormRequest
 {
@@ -17,6 +20,8 @@ final class UpdateTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'title' => ['string'],
+            'frequency' => ['string'],
             'points' => ['integer'],
         ];
     }

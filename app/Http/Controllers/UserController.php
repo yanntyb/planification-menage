@@ -24,7 +24,7 @@ final class UserController extends Controller
 
     public function store(StoreUserRequest $request): UserResource
     {
-        $user = app(CreateUser::class)->handle($request->all());
+        $user = app(CreateUser::class)->handle($request->validated());
 
         return new UserResource($user);
     }

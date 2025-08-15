@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Actions\Task\UpdateTaskPoint;
+use App\Actions\Task\Update\UpdateTaskPoint;
 use App\Actions\User\AssignUserTask;
 use App\Actions\User\CompleteUserTask;
 use App\Models\Task;
@@ -29,7 +29,7 @@ final class TaskFactory extends Factory
     public function availableAfter(string $time): self
     {
         return $this->state(fn (array $attributes) => [
-            'available_after' => $time,
+            'frequency' => $time,
         ]);
     }
 

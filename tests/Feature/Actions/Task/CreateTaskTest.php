@@ -9,13 +9,13 @@ describe(CreateTask::class, function () {
     it('can create task', function () {
         $task = app(CreateTask::class)->handle([
             'title' => 'tache 1',
-            'available_after' => '0000-00-00 00:00:01',
+            'frequency' => '0000-00-00 00:00:01',
         ]);
 
         expect($task)
             ->exists()->toBeTrue()
             ->title->toBe('tache 1')
-            ->available_after->toBe('0000-00-00 00:00:01')
+            ->frequency->toString()->toBe('0000-00-00 00:00:01')
             ->current_points->toBeNull();
     });
 

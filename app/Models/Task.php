@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Casts\Task\FrequencyCast;
+use App\Data\Frequency;
 use App\Models\Pivot\TaskUser;
 use Database\Factories\TaskFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -16,7 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @property-read int $id
  * @property-read string $title
- * @property-read string|null $available_after
+ * @property-read Frequency|null $frequency
  * @property-read TaskPoint|null $current_points
  */
 final class Task extends Model
@@ -27,6 +29,10 @@ final class Task extends Model
     use SoftDeletes;
 
     protected $guarded = [];
+
+    protected $casts = [
+        'frequency' => FrequencyCast::class,
+    ];
 
     /**
      * @return Attribute<TaskPoint|null, never>

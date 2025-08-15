@@ -9,9 +9,10 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * @property-read string $title
- * @property-read string $available_after
+ * @property-read string $frequency
  *
- * @method array{'title': string, 'available_after': string|null} all()
+ * @method array{'title': string, 'frequency': string|null} all()
+ * @method array{'title': string, 'frequency': string|null} validated()
  */
 final class StoreTaskRequest extends FormRequest
 {
@@ -22,7 +23,7 @@ final class StoreTaskRequest extends FormRequest
     {
         return [
             'title' => ['required'],
-            'available_after' => ['string'],
+            'frequency' => ['string'],
         ];
     }
 
@@ -32,7 +33,7 @@ final class StoreTaskRequest extends FormRequest
     public function after(): array
     {
         return [
-            new ValidateAvailableAfterRule($this->available_after),
+            new ValidateAvailableAfterRule($this->frequency),
         ];
     }
 

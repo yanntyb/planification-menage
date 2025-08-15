@@ -27,6 +27,6 @@ final class TaskUser extends Pivot
      */
     public function point(): BelongsTo
     {
-        return $this->belongsTo(TaskPoint::class);
+        return $this->belongsTo(TaskPoint::class, 'task_point_id', 'id');
     }
 }

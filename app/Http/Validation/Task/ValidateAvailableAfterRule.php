@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Validation\Task;
 
+use App\Data\Frequency;
+use App\Exceptions\FrequencyInstantiationException;
 use Illuminate\Contracts\Validation\Validator;
 
 final class ValidateAvailableAfterRule
@@ -12,10 +14,14 @@ final class ValidateAvailableAfterRule
 
     public function __invoke(Validator $validator): void
     {
-        preg_match('/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/', $this->value, $matches);
+        if (! $this->value) {
+            return;
+        }
 
-        if (count($matches) !== 7) {
-            $validator->errors()->add('available_after', 'Invalid date format');
+        try {
+            Frequency::from($this->value);
+        } catch (FrequencyInstantiationException $exception) {
+            $validator->errors()->add('frequency', 'Invalid date format');
         }
     }
 }

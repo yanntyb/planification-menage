@@ -16,7 +16,7 @@ describe('/api/tasks', function () {
 
             $this->assertDatabaseHas('task_points', [
                 'task_id' => $task->id,
-                'points' => 12,
+                'value' => 12,
             ]);
         });
 
@@ -29,7 +29,7 @@ describe('/api/tasks', function () {
                     'data' => [
                         'id' => $task->id,
                         'title' => $task->title,
-                        'points' => $task->current_points->points,
+                        'points' => $task->current_points->value,
                     ],
                 ]);
         });
@@ -51,20 +51,20 @@ describe('/api/tasks', function () {
             test('can post a task', function () {
                 $this->post('/api/tasks', [
                     'title' => 'tache 1',
-                    'available_after' => '0000-00-00 00:00:01',
+                    'frequency' => '0000-00-00 00:00:01',
                 ])->assertCreated();
 
                 $this->assertDatabaseHas('tasks', [
                     'title' => 'tache 1',
-                    'available_after' => '0000-00-00 00:00:01',
+                    'frequency' => '0000-00-00 00:00:01',
                 ]);
             });
 
-            test('cannot post a task with wrong available_after format', function () {
+            test('cannot post a task with wrong frequency format', function () {
                 $this->post('/api/tasks', [
                     'title' => 'tache 1',
-                    'available_after' => '00000000000001',
-                ])->assertInvalid(['available_after']);
+                    'frequency' => '00000000000001',
+                ])->assertInvalid(['frequency']);
             });
         });
 

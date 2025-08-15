@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\Task\CreateTask;
 use App\Actions\Task\DeleteTask;
-use App\Actions\Task\UpdateTaskPoint;
+use App\Actions\Task\UpdateTask;
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
@@ -26,7 +26,7 @@ final class TaskController extends Controller
 
     public function store(StoreTaskRequest $request): TaskResource
     {
-        $task = app(CreateTask::class)->handle($request->all());
+        $task = app(CreateTask::class)->handle($request->validated());
 
         return new TaskResource($task);
     }
@@ -38,7 +38,7 @@ final class TaskController extends Controller
 
     public function update(UpdateTaskRequest $request, Task $task): void
     {
-        app(UpdateTaskPoint::class)->handle($task, $request->points);
+        app(UpdateTask::class)->handle($task, $request->validated());
     }
 
     public function destroy(Task $task): Response

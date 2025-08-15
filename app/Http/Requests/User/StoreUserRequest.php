@@ -12,6 +12,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property-read string $password
  *
  * @method array{'name': string, 'email': string, 'password': string} all()
+ * @method array{'name': string, 'email': string, 'password': string} validated()
  */
 final class StoreUserRequest extends FormRequest
 {

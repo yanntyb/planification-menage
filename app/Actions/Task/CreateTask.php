@@ -12,7 +12,7 @@ final readonly class CreateTask
     /**
      * @param array{
      *     'title': string,
-     *     'available_after': string|null
+     *     'frequency': string|null
      * } $attributes
      */
     public function handle(array $attributes): Task

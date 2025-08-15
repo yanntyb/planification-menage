@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Actions\Task\Update\UpdateTaskPoint;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;
@@ -65,6 +66,8 @@ describe('users endpoints', function () {
         $user = User::factory()->create();
         $task = Task::factory()->withPoints()->withUser($user)->create();
 
+        $userTask = $user->tasks()->withPivot(['completed_at'])->firstWhere('task_id', $task->id);
+
         $this->get('/api/users/'.$user->id)
             ->assertOk()
             ->assertExactJson([
@@ -76,7 +79,37 @@ describe('users endpoints', function () {
                         [
                             'id' => $task->id,
                             'title' => $task->title,
-                            'points' => $task->current_points->points,
+                            'points' => $userTask->pivot->point->value,
+                        ],
+                    ],
+                ],
+            ]);
+    });
+
+    test('show user with task point being the ones at the association moment', function () {
+        $user = User::factory()->create();
+        $task = Task::factory()->withPoints()->withUser($user)->create();
+
+        $userTask = $user->tasks()->withPivot(['completed_at'])->firstWhere('task_id', $task->id);
+
+        $basePoint = $userTask->pivot->point->value;
+
+        app(UpdateTaskPoint::class)->handle($task, $basePoint + 1);
+
+        expect($task->current_points->value)->toBe($basePoint + 1);
+
+        $this->get('/api/users/'.$user->id)
+            ->assertOk()
+            ->assertExactJson([
+                'data' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'tasks' => [
+                        [
+                            'id' => $task->id,
+                            'title' => $task->title,
+                            'points' => $basePoint,
                         ],
                     ],
                 ],

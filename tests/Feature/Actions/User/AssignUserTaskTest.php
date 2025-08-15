@@ -36,5 +36,4 @@ describe(AssignUserTask::class, function () {
 
         $this->assertThrows(fn () => app(AssignUserTask::class)->handle($task, $user), TaskCannotBeAssignedException::class);
     });
-
 });

@@ -11,7 +11,7 @@ final class IsTaskAvailable
 {
     public function check(Task $task): bool
     {
-        if (! $task->available_after) {
+        if (! $task->frequency) {
             return true;
         }
 
@@ -26,18 +26,13 @@ final class IsTaskAvailable
             return true;
         }
 
-        preg_match('/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/', $task->available_after, $matches);
-        [$_, $years, $months, $days, $hours, $minutes, $secondes] = $matches;
-
-        $toInt = static fn (string|int &$value) => $value = (int) $value;
-
         $nextAvailableDate = $lastCompleted
-            ->addYears($toInt($years))
-            ->addMonths($toInt($months))
-            ->addDays($toInt($days))
-            ->addHours($toInt($hours))
-            ->addMinutes($toInt($minutes))
-            ->addSeconds($toInt($secondes));
+            ->addYears($task->frequency->years)
+            ->addMonths($task->frequency->months)
+            ->addDays($task->frequency->days)
+            ->addHours($task->frequency->hours)
+            ->addMinutes($task->frequency->minutes)
+            ->addSeconds($task->frequency->secondes);
 
         return now()->isAfter($nextAvailableDate);
 

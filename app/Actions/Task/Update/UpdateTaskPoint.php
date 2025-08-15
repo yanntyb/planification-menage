@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Task;
+namespace App\Actions\Task\Update;
 
 use App\Events\Task\TaskPointUpdatedEvent;
 use App\Models\Task;
@@ -21,11 +21,13 @@ final readonly class UpdateTaskPoint
 
         $taskPoint = $task->points()
             ->create([
-                'points' => $point,
+                'value' => $point,
                 'is_current' => true,
             ]);
 
         TaskPointUpdatedEvent::dispatch($taskPoint);
+
+        $task->refresh();
 
         return $taskPoint;
 
