@@ -12,6 +12,7 @@
         "php": "^8.4",
         "dedoc/scramble": "*",
         "laravel/framework": "^12.0",
+        "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1"
     },
     "require-dev": {
@@ -59,8 +60,9 @@
         "test": [
             "@php artisan config:clear --ansi",
             "@php artisan test --parallel",
-            "./vendor/bin/phpstan analyse"
+            "@test:type"
         ],
+        "test:type": "./vendor/bin/phpstan analyse",
         "lint": "./vendor/bin/pint  --parallel"
     },
     "extra": {

@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use App\Actions\Task\Update\UpdateTaskPoint;
+use App\Http\Resources\UserResource;
 use App\Models\Task;
 use App\Models\User;
-use Illuminate\Testing\Fluent\AssertableJson;
 
 describe('users endpoints', function () {
     test('index', function () {
@@ -13,13 +13,7 @@ describe('users endpoints', function () {
 
         $this->get('/api/users')
             ->assertOk()
-            ->assertJson(fn (AssertableJson $json) => $json->has('data')
-                ->has('data', 1)
-                ->has('data.0', fn (AssertableJson $json) => $json->where('id', $user->id)
-                    ->where('email', $user->email)
-                    ->etc()
-                )
-            );
+            ->assertJson([UserResource::make($user)->resolve()]);
     });
 
     test('store', function () {
@@ -53,12 +47,10 @@ describe('users endpoints', function () {
         $this->get('/api/users/'.$user->id)
             ->assertOk()
             ->assertExactJson([
-                'data' => [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'tasks' => [],
-                ],
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'tasks' => [],
             ]);
     });
 
@@ -71,16 +63,14 @@ describe('users endpoints', function () {
         $this->get('/api/users/'.$user->id)
             ->assertOk()
             ->assertExactJson([
-                'data' => [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'tasks' => [
-                        [
-                            'id' => $task->id,
-                            'title' => $task->title,
-                            'points' => $userTask->pivot->point->value,
-                        ],
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'tasks' => [
+                    [
+                        'id' => $task->id,
+                        'title' => $task->title,
+                        'points' => $userTask->pivot->point->value,
                     ],
                 ],
             ]);
@@ -101,16 +91,14 @@ describe('users endpoints', function () {
         $this->get('/api/users/'.$user->id)
             ->assertOk()
             ->assertExactJson([
-                'data' => [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'tasks' => [
-                        [
-                            'id' => $task->id,
-                            'title' => $task->title,
-                            'points' => $basePoint,
-                        ],
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'tasks' => [
+                    [
+                        'id' => $task->id,
+                        'title' => $task->title,
+                        'points' => $basePoint,
                     ],
                 ],
             ]);

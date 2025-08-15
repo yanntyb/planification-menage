@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Http\Resources\TaskResource;
 use App\Models\Task;
-use Illuminate\Testing\Fluent\AssertableJson;
 
 describe('/api/tasks', function () {
     describe('/{id}', function () {
@@ -25,13 +25,7 @@ describe('/api/tasks', function () {
 
             $this->get('/api/tasks/'.$task->id)
                 ->assertOk()
-                ->assertExactJson([
-                    'data' => [
-                        'id' => $task->id,
-                        'title' => $task->title,
-                        'points' => $task->current_points->value,
-                    ],
-                ]);
+                ->assertExactJson(TaskResource::make($task)->resolve());
         });
 
         test('delete', function () {
@@ -73,13 +67,9 @@ describe('/api/tasks', function () {
 
             $this->get('/api/tasks')
                 ->assertOk()
-                ->assertJson(fn (AssertableJson $json) => $json->has('data')
-                    ->has('data', 1)
-                    ->has('data.0', fn (AssertableJson $json) => $json->where('id', $task->id)
-                        ->where('title', $task->title)
-                        ->etc()
-                    )
-                );
+                ->assertJson([
+                    TaskResource::make($task)->resolve(),
+                ]);
         });
     });
 });
