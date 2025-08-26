@@ -17,6 +17,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *     'id': int,
  *     'title': string,
  *     'points': int,
+ *     'last_completed_at': ?string
  * }
  *
  * @method static AnonymousResourceCollection<TaskResource> collection($resource)
@@ -33,10 +34,16 @@ final class TaskResource extends JsonResource
         /** @var int $points */
         $points = $this->whenPivotLoaded(TaskUser::class, fn () => $this->pivot->point->value ?? 0, $this->current_points->value ?? 0);
 
+        $lastCompletedAssignation = TaskUser::query()
+            ->whereNotNull('completed_at')
+            ->latest('completed_at')
+            ->first();
+
         return [
             'id' => $this->id,
             'title' => $this->title,
             'points' => $points,
+            'last_completed_at' => $lastCompletedAssignation?->completed_at,
         ];
     }
 }

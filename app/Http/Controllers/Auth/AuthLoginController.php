@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
-use App\Actions\User\CreateUserAccessToken;
+use App\Actions\User\Auth\CreateUserAccessToken;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\TokenResource;
 use App\Models\User;

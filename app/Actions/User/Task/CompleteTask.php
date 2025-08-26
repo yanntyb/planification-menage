@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\User;
+namespace App\Actions\User\Task;
 
 use App\Exceptions\Task\TaskCannotBeCompletedException;
 use App\Models\Pivot\TaskUser;
@@ -10,7 +10,7 @@ use App\Models\Task;
 use App\Models\User;
 use App\Services\Task\IsTaskAvailable;
 
-final readonly class CompleteUserTask
+final readonly class CompleteTask
 {
     public function __construct(public IsTaskAvailable $isTaskAvailable) {}
 

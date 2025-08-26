@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth\Task;
 
 use App\Http\Resources\TaskResource;
 use Illuminate\Http\Request;

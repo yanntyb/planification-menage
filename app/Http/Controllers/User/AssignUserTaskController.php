@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\User;
 
-use App\Actions\User\AssignUserTask;
+use App\Actions\User\Task\AssignTask;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
 final class AssignUserTaskController
 {
-    public function __construct(public AssignUserTask $assign) {}
+    public function __construct(public AssignTask $assign) {}
 
     public function __invoke(User $user, Task $task): JsonResponse
     {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Actions\Task\Update\UpdateTaskFrequency;
 use App\Data\Frequency;
-use App\Events\Task\TaskFrequencyUpdated;
+use App\Events\Task\TaskUpdated;
 use App\Exceptions\FrequencyInstantiationException;
 use App\Models\Task;
 
@@ -35,7 +35,7 @@ describe(UpdateTaskFrequency::class, function () {
 
         app(UpdateTaskFrequency::class)->handle($task, '0000-00-00 00:00:01');
 
-        Event::assertDispatched(fn (TaskFrequencyUpdated $event) => $event->task->id === $task->id);
+        Event::assertDispatched(fn (TaskUpdated $event) => $event->task->id === $task->id);
     });
 
     test('throw on wrong format', function () {

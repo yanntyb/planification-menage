@@ -71,6 +71,7 @@ describe('users endpoints', function () {
                         'id' => $task->id,
                         'title' => $task->title,
                         'points' => $userTask->pivot->point->value,
+                        'last_completed_at' => null
                     ],
                 ],
             ]);

@@ -7,7 +7,7 @@ namespace App\Events\Task;
 use App\Models\Task;
 use Illuminate\Foundation\Events\Dispatchable;
 
-final class TaskFrequencyUpdated
+final class TaskUpdated
 {
     use Dispatchable;
 

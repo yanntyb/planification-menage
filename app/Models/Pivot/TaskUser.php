@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
- * @property-read ?Carbon $completed_at
+ * @property-read Carbon|null $completed_at
  */
 final class TaskUser extends Pivot
 {

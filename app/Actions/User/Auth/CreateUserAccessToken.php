@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\User;
+namespace App\Actions\User\Auth;
 
 use App\Models\User;
 use Laravel\Sanctum\NewAccessToken;

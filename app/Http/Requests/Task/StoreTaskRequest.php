@@ -33,7 +33,7 @@ final class StoreTaskRequest extends FormRequest
     public function after(): array
     {
         return [
-            new ValidateAvailableAfterRule($this->frequency),
+            new ValidateAvailableAfterRule($this->frequency ?? ''),
         ];
     }
 

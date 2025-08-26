@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Actions\Task\Update\UpdateTaskPoint;
-use App\Actions\User\AssignUserTask;
-use App\Actions\User\CompleteUserTask;
+use App\Actions\User\Task\AssignTask;
+use App\Actions\User\Task\CompleteTask;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -44,7 +44,7 @@ final class TaskFactory extends Factory
     {
         $user ??= User::factory()->create();
 
-        return $this->afterCreating(fn (Task $task) => app(AssignUserTask::class)->handle($task, $user));
+        return $this->afterCreating(fn (Task $task) => app(AssignTask::class)->handle($task, $user));
     }
 
     public function completed(?User $user = null, int $points = 100)
@@ -54,6 +54,6 @@ final class TaskFactory extends Factory
         return $this
             ->withPoints($points)
             ->withUser($user)
-            ->afterCreating(fn (Task $task) => app(CompleteUserTask::class)->handle($task, $user));
+            ->afterCreating(fn (Task $task) => app(CompleteTask::class)->handle($task, $user));
     }
 }

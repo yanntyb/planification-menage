@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Task\Update;
 
 use App\Data\Frequency;
-use App\Events\Task\TaskFrequencyUpdated;
+use App\Events\Task\TaskUpdated;
 use App\Models\Task;
 
 final class UpdateTaskFrequency
@@ -16,7 +16,7 @@ final class UpdateTaskFrequency
     {
         $task->update(['frequency' => $frequency]);
 
-        TaskFrequencyUpdated::dispatch($task);
+        TaskUpdated::dispatch($task);
 
         return $task;
     }

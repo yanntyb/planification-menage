@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-use App\Actions\User\AssignUserTask;
-use App\Actions\User\CompleteUserTask;
+use App\Actions\User\Task\AssignTask;
+use App\Actions\User\Task\CompleteTask;
 use App\Events\TaskAssignedEvent;
 use App\Exceptions\Task\TaskCannotBeCompletedException;
 use App\Models\Task;
 use App\Models\User;
 use Carbon\Carbon;
 
-describe(CompleteUserTask::class, function () {
+describe(CompleteTask::class, function () {
     it('can validate task', function () {
         $user = User::factory()->create();
         $task = Task::factory()->withPoints()->withUser($user)->create();
 
         $this->freezeTime(function (Carbon $time) use ($user, $task) {
-            app(CompleteUserTask::class)->handle($task, $user);
+            app(CompleteTask::class)->handle($task, $user);
 
             $userTask = $user->tasks()->firstWhere('task_id', $task->id);
 
@@ -33,8 +33,8 @@ describe(CompleteUserTask::class, function () {
         $task = Task::factory()->withPoints()->create();
         $user = User::factory()->create();
 
-        app(AssignUserTask::class)->handle($task, $user);
-        app(CompleteUserTask::class)->handle($task, $user);
+        app(AssignTask::class)->handle($task, $user);
+        app(CompleteTask::class)->handle($task, $user);
 
         Event::assertDispatched(fn (TaskAssignedEvent $event) => $event->task->id === $task->id && $event->user->id === $user->id);
     });
@@ -44,7 +44,7 @@ describe(CompleteUserTask::class, function () {
         $task = Task::factory()->withPoints()->withUser($user1)->create();
         $user2 = User::factory()->create();
 
-        app(CompleteUserTask::class)->handle($task, $user2);
+        app(CompleteTask::class)->handle($task, $user2);
 
         $userTask = $user1->tasks()->firstWhere('task_id', $task->id);
 
@@ -58,10 +58,10 @@ describe(CompleteUserTask::class, function () {
         $task = Task::factory()->withPoints()->create();
         $user = User::factory()->create();
 
-        app(AssignUserTask::class)->handle($task, $user);
-        app(CompleteUserTask::class)->handle($task, $user);
+        app(AssignTask::class)->handle($task, $user);
+        app(CompleteTask::class)->handle($task, $user);
 
-        $this->assertThrows(fn () => app(CompleteUserTask::class)->handle($task, $user), TaskCannotBeCompletedException::class);
+        $this->assertThrows(fn () => app(CompleteTask::class)->handle($task, $user), TaskCannotBeCompletedException::class);
     });
 
     it('throw on trying to complete task not yet available', function () {
@@ -71,10 +71,10 @@ describe(CompleteUserTask::class, function () {
             ->availableAfter('0000-00-00 00:01:00')
             ->create();
 
-        app(AssignUserTask::class)->handle($task, $user);
+        app(AssignTask::class)->handle($task, $user);
 
         $this->assertThrows(
-            fn () => app(CompleteUserTask::class)->handle($task, $user),
+            fn () => app(CompleteTask::class)->handle($task, $user),
             TaskCannotBeCompletedException::class
         );
     });
@@ -86,10 +86,10 @@ describe(CompleteUserTask::class, function () {
             ->availableAfter('0000-00-00 00:01:00')
             ->create();
 
-        app(AssignUserTask::class)->handle($task, $user);
+        app(AssignTask::class)->handle($task, $user);
 
         $this->travel(1)->minutes();
 
-        $this->assertDoesntThrow(fn () => app(CompleteUserTask::class)->handle($task, $user));
+        $this->assertDoesntThrow(fn () => app(CompleteTask::class)->handle($task, $user));
     });
 });

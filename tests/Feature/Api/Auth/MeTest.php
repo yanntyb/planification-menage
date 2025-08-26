@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Actions\User\CreateUserAccessToken;
+use App\Actions\User\Auth\CreateUserAccessToken;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 

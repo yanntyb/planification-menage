@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\User;
+namespace App\Actions\User\Task;
 
 use App\Events\Task\TaskUnassignedEvent;
 use App\Exceptions\Task\TaskCannotBeUnassignException;
@@ -10,7 +10,7 @@ use App\Models\Pivot\TaskUser;
 use App\Models\Task;
 use App\Models\User;
 
-final readonly class UnassignUserTask
+final readonly class UnassignTask
 {
     public function handle(Task $task, User $user): bool
     {

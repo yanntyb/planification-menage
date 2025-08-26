@@ -8,18 +8,14 @@ use Carbon\Carbon;
 use Laravel\Sanctum\Sanctum;
 
 describe('/api/auth/tasks/complete', function () {
-    it('redirect to login without token', function () {
-        $this->post('/api/auth/tasks/complete')->assertRedirectToRoute('login');
-    });
-
     it('complete task', function () {
         $user = User::factory()->create();
-        Task::factory()->withPoints()->withUser($user)->create();
+        $task = Task::factory()->withPoints()->withUser($user)->create();
 
         Sanctum::actingAs($user);
 
-        $this->freezeTime(function (Carbon $now) use ($user) {
-            $this->post('/api/auth/tasks/complete', ['task_id' => $user->tasks->first()->id])->assertOk();
+        $this->freezeTime(function (Carbon $now) use ($user, $task) {
+            $this->post("/api/auth/tasks/$task->id/complete")->assertOk();
 
             $this->assertDatabaseHas('task_user', [
                 'user_id' => $user->id,

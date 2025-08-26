@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\User;
+namespace App\Actions\User\Task;
 
 use App\Events\TaskAssignedEvent;
 use App\Exceptions\Task\TaskCannotBeAssignedException;
 use App\Models\Task;
 use App\Models\User;
 
-final readonly class AssignUserTask
+final readonly class AssignTask
 {
     public function handle(Task $task, User $user): bool
     {

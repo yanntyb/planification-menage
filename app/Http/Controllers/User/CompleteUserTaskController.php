@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\User;
 
-use App\Actions\User\CompleteUserTask;
+use App\Actions\User\Task\CompleteTask;
 use App\Http\Controllers\Controller;
 use App\Models\Task;
 use App\Models\User;
@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 
 final class CompleteUserTaskController extends Controller
 {
-    public function __construct(public CompleteUserTask $complete) {}
+    public function __construct(public CompleteTask $complete) {}
 
     public function __invoke(User $user, Task $task): JsonResponse
     {
