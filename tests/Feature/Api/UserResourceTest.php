@@ -100,6 +100,7 @@ describe('users endpoints', function () {
                         'id' => $task->id,
                         'title' => $task->title,
                         'points' => $basePoint,
+                        'last_completed_at' => null,
                     ],
                 ],
             ]);
