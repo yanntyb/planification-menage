@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Actions\User\Task\AssignTask;
@@ -8,27 +10,26 @@ use App\Http\Controllers\Controller;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
-class AssignAndCompleteAuthTaskController extends Controller
+final class AssignAndCompleteAuthTaskController extends Controller
 {
     public function __construct(
         public AssignTask $assign,
         public CompleteTask $complete,
-    )
-    {}
+    ) {}
 
     public function __invoke(Task $task, Request $request)
     {
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        if(!$this->assign->handle($task, $user)) {
+        if (! $this->assign->handle($task, $user)) {
             return response()->json(['message' => 'Error while completing task'], 400);
         }
 
-        if (!$this->complete->handle($task, $user)) {
+        if (! $this->complete->handle($task, $user)) {
             return response()->json(['message' => 'Error while completing task'], 400);
         }
 

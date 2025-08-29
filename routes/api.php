@@ -15,8 +15,8 @@ use App\Http\Controllers\User\CompleteUserTaskController;
 use App\Http\Controllers\User\UnassignUserTaskController;
 use App\Http\Controllers\UserController;
 
-Route::resource('tasks', TaskController::class);
-Route::resource('users', UserController::class);
+Route::resource('tasks', TaskController::class)->except('create', 'edit');
+Route::resource('users', UserController::class)->except('create', 'edit', 'update');
 
 Route::post('users/{user}/tasks/{task}/complete', CompleteUserTaskController::class)->name('users.tasks.complete');
 Route::post('users/{user}/tasks/{task}/assign', AssignUserTaskController::class)->name('users.tasks.assign');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth\Task;
 
 use App\Actions\User\Task\UnassignTask;
@@ -7,18 +9,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
-class UnassignAuthTaskController extends Controller
+final class UnassignAuthTaskController extends Controller
 {
-    public function __construct(public UnassignTask $unassign)
-    {
-    }
+    public function __construct(public UnassignTask $unassign) {}
 
     public function __invoke(Task $task, Request $request)
     {
 
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 

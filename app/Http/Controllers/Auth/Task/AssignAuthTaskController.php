@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth\Task;
 
 use App\Actions\User\Task\AssignTask;
@@ -8,17 +10,15 @@ use App\Models\Task;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class AssignAuthTaskController extends Controller
+final class AssignAuthTaskController extends Controller
 {
-    public function __construct(public AssignTask $assign)
-    {
-    }
+    public function __construct(public AssignTask $assign) {}
 
     public function __invoke(Task $task, Request $request): JsonResponse
     {
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
