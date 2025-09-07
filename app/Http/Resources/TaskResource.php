@@ -43,7 +43,7 @@ final class TaskResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'points' => $points,
-            'last_completed_at' => $lastCompletedAssignation?->completed_at,
+            'last_completed_at' => $lastCompletedAssignation?->completed_at?->toString(),
         ];
     }
 }

@@ -34,7 +34,7 @@ final readonly class CompleteTask
             throw TaskCannotBeCompletedException::alreadyCompleted($task, $user);
         }
 
-        $task->users()->updateExistingPivot($user->id, [
+        $pivot->update([
             'completed_at' => now(),
         ]);
 

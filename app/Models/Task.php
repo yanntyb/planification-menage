@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Casts\Task\FrequencyCast;
 use App\Data\Frequency;
+use App\Models\Builder\TaskBuilder;
 use App\Models\Pivot\TaskUser;
 use Database\Factories\TaskFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -20,6 +21,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read string $title
  * @property-read Frequency|null $frequency
  * @property-read TaskPoint|null $current_points
+ *
+ * @method static TaskBuilder query()
  */
 final class Task extends Model
 {
@@ -33,6 +36,11 @@ final class Task extends Model
     protected $casts = [
         'frequency' => FrequencyCast::class,
     ];
+
+    public function newModelQuery(): TaskBuilder
+    {
+        return new TaskBuilder($this->newBaseQueryBuilder())->setModel($this);
+    }
 
     /**
      * @return Attribute<TaskPoint|null, never>

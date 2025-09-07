@@ -8,6 +8,7 @@ use App\Actions\User\Task\AssignTask;
 use App\Actions\User\Task\CompleteTask;
 use App\Http\Controllers\Controller;
 use App\Models\Task;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 final class AssignAndCompleteAuthTaskController extends Controller
@@ -17,7 +18,7 @@ final class AssignAndCompleteAuthTaskController extends Controller
         public CompleteTask $complete,
     ) {}
 
-    public function __invoke(Task $task, Request $request)
+    public function __invoke(Task $task, Request $request): JsonResponse
     {
         $user = $request->user();
 

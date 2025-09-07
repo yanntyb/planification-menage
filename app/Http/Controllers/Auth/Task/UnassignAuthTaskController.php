@@ -7,13 +7,14 @@ namespace App\Http\Controllers\Auth\Task;
 use App\Actions\User\Task\UnassignTask;
 use App\Http\Controllers\Controller;
 use App\Models\Task;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 final class UnassignAuthTaskController extends Controller
 {
     public function __construct(public UnassignTask $unassign) {}
 
-    public function __invoke(Task $task, Request $request)
+    public function __invoke(Task $task, Request $request): JsonResponse
     {
 
         $user = $request->user();

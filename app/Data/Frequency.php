@@ -9,12 +9,12 @@ use App\Exceptions\FrequencyInstantiationException;
 final readonly class Frequency
 {
     public function __construct(
-        public int $years,
-        public int $months,
-        public int $days,
-        public int $hours,
-        public int $minutes,
-        public int $secondes,
+        public int $years = 0,
+        public int $months = 0,
+        public int $days = 0,
+        public int $hours = 0,
+        public int $minutes = 0,
+        public int $secondes = 0,
     ) {}
 
     public static function from(mixed $value): ?self

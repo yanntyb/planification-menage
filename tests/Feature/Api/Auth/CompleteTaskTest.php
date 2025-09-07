@@ -15,7 +15,7 @@ describe('/api/auth/tasks/complete', function () {
         Sanctum::actingAs($user);
 
         $this->freezeTime(function (Carbon $now) use ($user, $task) {
-            $this->post("/api/auth/tasks/$task->id/complete")->assertOk();
+            $this->post(route('auth.tasks.complete', ['task' => $task->id]))->assertOk();
 
             $this->assertDatabaseHas('task_user', [
                 'user_id' => $user->id,

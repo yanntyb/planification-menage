@@ -13,7 +13,7 @@ describe(TaskResource::class, function () {
             $task = Task::factory()->completed($user)->create();
             $resource = TaskResource::make($task)->resolve();
 
-            expect($resource)->last_completed_at->toString()->toBe($now->toString());
+            expect($resource)->last_completed_at->toBe($now->toString());
         });
     });
 });

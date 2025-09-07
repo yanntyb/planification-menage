@@ -66,12 +66,7 @@ describe(CompleteTask::class, function () {
 
     it('throw on trying to complete task not yet available', function () {
         $user = User::factory()->create();
-        $task = Task::factory()
-            ->completed()
-            ->availableAfter('0000-00-00 00:01:00')
-            ->create();
-
-        app(AssignTask::class)->handle($task, $user);
+        $task = Task::factory()->completed()->availableAfter('0000-00-00 00:01:00')->create();
 
         $this->assertThrows(
             fn () => app(CompleteTask::class)->handle($task, $user),

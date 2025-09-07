@@ -26,5 +26,6 @@ final class AppServiceProvider extends ServiceProvider
     {
         Date::use(CarbonImmutable::class);
         JsonResource::withoutWrapping();
+
     }
 }
